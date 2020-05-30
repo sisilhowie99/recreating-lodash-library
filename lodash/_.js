@@ -1,4 +1,5 @@
 const _ = {
+    //number methods
     clamp(num, lower, upper) {
         let lowerClampedValue = Math.max(num, lower);
         let clampedValue = Math.min(lowerClampedValue, upper);
@@ -19,6 +20,7 @@ const _ = {
         return isInRange;
     },
 
+    //string methods
     words(string) {
         const words = string.split(' ');
         return words;
@@ -43,6 +45,7 @@ const _ = {
         }
     },
 
+    //object methods
     has(object, key) {
         let hasValue = object[key] != undefined ? true : false;
         return hasValue;
@@ -55,6 +58,49 @@ const _ = {
             invertObject[originalValue] = key;
         };
         return invertObject;
+    },
+
+    findKey(object, predicate) {
+        for (const key in object) {
+            let value = object[key];
+            let predicateReturnValue = predicate(value);
+
+            if(predicateReturnValue == true) {
+                return key;
+            }
+        }
+        return undefined;
+    },
+
+    //array methods
+    drop(array, n) {
+        if(n == undefined) {
+            n = 1;
+        };
+        let droppedArray = array.slice(n);
+        return droppedArray;
+    },
+
+    dropWhile(array, predicate) {
+        let dropNumber = array.findIndex(function(element, index) {
+            return !predicate(element, index, array);
+        });
+
+        let droppedArray = this.drop(array, dropNumber);
+        return droppedArray;
+    },
+
+    chunk(array, size) {
+        if(size == undefined) {
+            size = 1;
+        };
+
+        let generatedChunk = [];
+        for(i = 0; i < array.length; i += size) {
+            let arrayChunk = array.slice(i, i+size);
+            generatedChunk.push(arrayChunk);
+        };
+        return generatedChunk;
     }
 }
 
